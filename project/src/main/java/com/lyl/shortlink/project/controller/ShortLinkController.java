@@ -36,7 +36,7 @@ public class ShortLinkController {
     /**
      * 创建短链接
      */
-    @PostMapping("/api/short-link/admin/v1/create")
+    @PostMapping("/api/short-link/v1/create")
 //    @SentinelResource(
 //            value = "create_short-link",
 //            blockHandler = "createShortLinkBlockHandlerMethod",
@@ -49,7 +49,7 @@ public class ShortLinkController {
     /**
      * 通过分布式锁创建短链接
      */
-    @PostMapping("/api/short-link/admin/v1/create/by-lock")
+    @PostMapping("/api/short-link/v1/create/by-lock")
     public Result<ShortLinkCreateRespDTO> createShortLinkByLock(@RequestBody ShortLinkCreateReqDTO requestParam) {
         return Results.success(shortLinkService.createShortLinkByLock(requestParam));
     }
@@ -57,7 +57,7 @@ public class ShortLinkController {
     /**
      * 批量创建短链接
      */
-    @PostMapping("/api/short-link/admin/v1/create/batch")
+    @PostMapping("/api/short-link/v1/create/batch")
     public Result<ShortLinkBatchCreateRespDTO> batchCreateShortLink(@RequestBody ShortLinkBatchCreateReqDTO requestParam) {
         return Results.success(shortLinkService.batchCreateShortLink(requestParam));
     }
@@ -65,7 +65,7 @@ public class ShortLinkController {
     /**
      * 修改短链接
      */
-    @PostMapping("/api/short-link/admin/v1/update")
+    @PostMapping("/api/short-link/v1/update")
     public Result<Void> updateShortLink(@RequestBody ShortLinkUpdateReqDTO requestParam) {
         shortLinkService.updateShortLink(requestParam);
         return Results.success();
@@ -74,7 +74,7 @@ public class ShortLinkController {
     /**
      * 分页查询短链接
      */
-    @GetMapping("/api/short-link/admin/v1/page")
+    @GetMapping("/api/short-link/v1/page")
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkPageReqDTO requestParam) {
         return Results.success(shortLinkService.pageShortLink(requestParam));
     }
@@ -82,7 +82,7 @@ public class ShortLinkController {
     /**
      * 查询短链接分组内数量
      */
-    @GetMapping("/api/short-link/admin/v1/count")
+    @GetMapping("/api/short-link/v1/count")
     public Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount(@RequestParam("requestParam") List<String> requestParam) {
         return Results.success(shortLinkService.listGroupShortLinkCount(requestParam));
     }
