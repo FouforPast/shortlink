@@ -1,5 +1,5 @@
 server:
-  port: 8001
+  port: 8000
 
 
 logging:
@@ -24,25 +24,14 @@ short-link:
     max-num: 10
   domain:
     default: nurl.ink:8000
+  amap:
+    key: 2248e268e18ce1393c6ebad7a69a0264
 
 spring:
   application:
     name: short-link-project
-  datasource:
-    #    # ShardingSphere 对 Driver 自定义，实现分库分表等隐藏逻辑
-    #    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    #    # ShardingSphere 配置文件路径
-    #    url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
-    username: root
-    password: root
-    url: jdbc:mysql://127.0.0.1:3306/link?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      connection-test-query: select 1
-      connection-timeout: 20000
-      idle-timeout: 300000
-      maximum-pool-size: 5
-      minimum-idle: 5
+  profiles:
+    active: lab
 
   data:
     redis:
@@ -52,7 +41,3 @@ spring:
     view:
       prefix: /templates/
       suffix: .html
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848

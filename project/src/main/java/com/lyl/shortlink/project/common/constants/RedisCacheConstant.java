@@ -11,4 +11,6 @@ public class RedisCacheConstant {
     public static final String GOTO_SHORT_LINK_KEY = "short-link:lock:goto:%s";
 
     public static final String LOCK_GOTO_SHORT_LINK_KEY = "short-link:lock:goto:%s";
+    public static final String UV_SHORT_LINK_KEY = "short-link:uv:%s";
+    public static final String UIP_SHORT_LINK_KEY = "short-link:uip:%s:%s";
 }
