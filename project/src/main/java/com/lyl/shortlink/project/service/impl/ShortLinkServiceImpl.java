@@ -493,10 +493,10 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .fullShortUrl(url)
                 .user(cookie.getValue())
                 .ip(getActualIp((HttpServletRequest) request))
-                .os(LinkUtil.getOs((HttpServletRequest) request))
-                .browser(LinkUtil.getBrowser((HttpServletRequest) request))
-                .device(LinkUtil.getDevice((HttpServletRequest) request))
-                .network(LinkUtil.getNetwork((HttpServletRequest) request))
+                .os(linkOsStatsDO.getOs())
+                .browser(linkBrowserStatsDO.getBrowser())
+                .device(linkDeviceStatsDO.getDevice())
+                .network(linkNetworkStatsDO.getNetwork())
                 .locale(actualProvince + actualCity)
                 .build();
 
