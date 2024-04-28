@@ -77,11 +77,10 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final LinkAccessStatsMapper linkAccessStatsMapper;
     private final LinkOsStatsMapper linkOsStatsMapper;
 
-    private final LinkAccessLogsMapper linkAccessLogsMapper;
     private final LinkBrowserStatsMapper linkLocaleBrowserStatsMapper;
     private final LinkDeviceStatsMapper linkLocaleDeviceStatsMapper;
     private final LinkLocaleStatsMapper linkLocaleStatsMapper;
-    private final LinkOsStatsMapper linkLocaleOsStatsMapper;
+    private final LinkStatsTodayMapper linkStatsTodayMapper;
     private final LinkNetworkStatsMapper linkLocaleNetworkStatsMapper;
 
 
@@ -325,24 +324,25 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
 
     @Override
     public IPage<ShortLinkPageRespDTO> pageShortLink(ShortLinkPageReqDTO requestParam) {
-//        IPage<ShortLinkDO> resultPage = baseMapper.pageLink(requestParam);
-//        return resultPage.convert(each -> {
-//            ShortLinkPageRespDTO result = BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
-//            result.setDomain("http://" + result.getDomain());
-//            return result;
-//        });
-        LambdaQueryWrapper<ShortLinkDO> queryWrapper = Wrappers.lambdaQuery(ShortLinkDO.class)
-                .eq(ShortLinkDO::getGid, requestParam.getGid())
-                .eq(ShortLinkDO::getEnableStatus, 0)
-                .eq(ShortLinkDO::getDelFlag, 0)
-                .orderByDesc(ShortLinkDO::getCreateTime);
-        IPage<ShortLinkDO> shortLinkDOIPage = baseMapper.selectPage(requestParam, queryWrapper);
-        return shortLinkDOIPage.convert(each -> {
-//            ShortLinkPageRespDTO result = BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
-//            result.setDomain("http://" + result.getDomain());
-//            return result;
-            return BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
+        IPage<ShortLinkDO> resultPage = baseMapper.pageLink(requestParam);
+        return resultPage.convert(each -> {
+            ShortLinkPageRespDTO result = BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
+            result.setDomain("http://" + result.getDomain());
+            return result;
         });
+////        LambdaQueryWrapper<ShortLinkDO> queryWrapper = Wrappers.lambdaQuery(ShortLinkDO.class)
+////                .eq(ShortLinkDO::getGid, requestParam.getGid())
+////                .eq(ShortLinkDO::getEnableStatus, 0)
+////                .eq(ShortLinkDO::getDelFlag, 0)
+////                .orderByDesc(ShortLinkDO::getCreateTime);
+////        IPage<ShortLinkDO> shortLinkDOIPage = baseMapper.selectPage(requestParam, queryWrapper);
+//        IPage<ShortLinkDO> shortLinkDOIPage = baseMapper.pageLink(requestParam);
+//        return shortLinkDOIPage.convert(each -> {
+////            ShortLinkPageRespDTO result = BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
+////            result.setDomain("http://" + result.getDomain());
+////            return result;
+//            return BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
+//        });
     }
 
     public void shortLinkStats(ShortLinkStatsRecordDTO statsRecord) {
@@ -404,7 +404,6 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         int hourOfDay = LocalTime.now().getHour();
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
         if (cookie == null){
-
             String uv = UUID.fastUUID().toString();
             cookie = new Cookie("uv", uv);
             cookie.setMaxAge(60 * 60 * 24 * 30);
@@ -414,6 +413,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
             uvFlag.set(true);
         }
         String requestUtl = ((HttpServletRequest) request).getRequestURL().toString();
+        Long size = stringRedisTemplate.opsForHyperLogLog().size(String.format(UIP_SHORT_LINK_KEY, url, hourOfDay));
         if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(String.format(UIP_SHORT_LINK_KEY, url, hourOfDay)))) {
             stringRedisTemplate.opsForHyperLogLog().add(String.format(UIP_SHORT_LINK_KEY, url, hourOfDay), requestUtl);
         }else{
@@ -421,7 +421,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
             // 获取当前小时结束还有多少秒
             stringRedisTemplate.expire(String.format(UIP_SHORT_LINK_KEY, url, hourOfDay), remainingTime.getSeconds(), TimeUnit.SECONDS);
         }
-        Long size = stringRedisTemplate.opsForHyperLogLog().size(String.format(UIP_SHORT_LINK_KEY, url, hourOfDay));
+        size = size - stringRedisTemplate.opsForHyperLogLog().size(String.format(UIP_SHORT_LINK_KEY, url, hourOfDay));
         Date date = new Date();
         LinkAccessStatsDO linkAccessStatsDO = LinkAccessStatsDO.builder()
                 .pv(1)
@@ -465,6 +465,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .build();
         linkOsStatsMapper.shortLinkOsState(linkOsStatsDO);
 
+
         LinkBrowserStatsDO linkBrowserStatsDO = LinkBrowserStatsDO.builder()
                 .fullShortUrl(url)
                 .date(date)
@@ -499,6 +500,15 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .network(linkNetworkStatsDO.getNetwork())
                 .locale(actualProvince + actualCity)
                 .build();
-
+        baseMapper.incrementStats("0", url, uvFlag.get() ? 1 : 0, 1, size.intValue());
+        // TODO 需要重新判断
+        LinkStatsTodayDO linkStatsTodayDO = LinkStatsTodayDO.builder()
+                .todayPv(1)
+                .todayUv(uvFlag.get() ? 1 : 0)
+                .todayUip(size.intValue())
+                .fullShortUrl(url)
+                .date(new Date())
+                .build();
+        linkStatsTodayMapper.shortLinkTodayState(linkStatsTodayDO);
     }
 }

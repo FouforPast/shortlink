@@ -19,7 +19,7 @@ spring:
   application:
     name: short-link-admin
   profiles:
-    active: lab
+    active: home
 
   data:
     redis:

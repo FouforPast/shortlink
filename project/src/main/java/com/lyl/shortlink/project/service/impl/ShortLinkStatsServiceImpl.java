@@ -407,6 +407,9 @@ public class ShortLinkStatsServiceImpl implements ShortLinkStatsService {
         List<String> userAccessLogsList = actualResult.getRecords().stream()
                 .map(ShortLinkStatsAccessRecordRespDTO::getUser)
                 .toList();
+        if(CollUtil.isEmpty(userAccessLogsList)){
+            return actualResult;
+        }
         List<Map<String, Object>> uvTypeList = linkAccessLogsMapper.selectUvTypeByUsers(
                 requestParam.getGid(),
                 requestParam.getFullShortUrl(),
