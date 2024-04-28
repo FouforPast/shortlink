@@ -24,10 +24,7 @@ import com.lyl.shortlink.project.dto.req.ShortLinkBatchCreateReqDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
-import com.lyl.shortlink.project.dto.resp.ShortLinkBatchCreateRespDTO;
-import com.lyl.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
-import com.lyl.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
-import com.lyl.shortlink.project.dto.resp.ShortLinkPageRespDTO;
+import com.lyl.shortlink.project.dto.resp.*;
 import com.lyl.shortlink.project.service.ShortLinkService;
 import com.lyl.shortlink.project.util.HashUtil;
 import com.lyl.shortlink.project.util.LinkUtil;
@@ -264,7 +261,29 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
 
     @Override
     public ShortLinkBatchCreateRespDTO batchCreateShortLink(ShortLinkBatchCreateReqDTO requestParam) {
-        return null;
+        List<String> originUrls = requestParam.getOriginUrls();
+        List<String> describes = requestParam.getDescribes();
+        List<ShortLinkBaseInfoRespDTO> result = new ArrayList<>();
+        for (int i = 0; i < originUrls.size(); i++) {
+            ShortLinkCreateReqDTO shortLinkCreateReqDTO = BeanUtil.toBean(requestParam, ShortLinkCreateReqDTO.class);
+            shortLinkCreateReqDTO.setOriginUrl(originUrls.get(i));
+            shortLinkCreateReqDTO.setDescribe(describes.get(i));
+            try {
+                ShortLinkCreateRespDTO shortLink = createShortLink(shortLinkCreateReqDTO);
+                ShortLinkBaseInfoRespDTO linkBaseInfoRespDTO = ShortLinkBaseInfoRespDTO.builder()
+                        .fullShortUrl(shortLink.getFullShortUrl())
+                        .originUrl(shortLink.getOriginUrl())
+                        .describe(describes.get(i))
+                        .build();
+                result.add(linkBaseInfoRespDTO);
+            } catch (Throwable ex) {
+                log.error("批量创建短链接失败，原始参数：{}", originUrls.get(i));
+            }
+        }
+        return ShortLinkBatchCreateRespDTO.builder()
+                .total(result.size())
+                .baseLinkInfos(result)
+                .build();
     }
 
     @Override
