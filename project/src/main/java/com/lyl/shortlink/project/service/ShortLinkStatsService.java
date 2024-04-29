@@ -1,6 +1,7 @@
 package com.lyl.shortlink.project.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lyl.shortlink.project.dto.biz.ShortLinkStatsRecordDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkGroupStatsAccessRecordReqDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkStatsAccessRecordReqDTO;
@@ -41,4 +42,8 @@ public interface ShortLinkStatsService {
      * @return 分组访问记录监控数据
      */
     IPage<ShortLinkStatsAccessRecordRespDTO> groupShortLinkStatsAccessRecord(ShortLinkGroupStatsAccessRecordReqDTO requestParam);
+
+
+    public void actualSaveShortLinkStats(ShortLinkStatsRecordDTO statsRecord);
+
 }

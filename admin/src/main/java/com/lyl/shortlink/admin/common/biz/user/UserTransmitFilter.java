@@ -34,6 +34,7 @@ public class UserTransmitFilter implements Filter {
     private static final List<String> IGNORE_URI = Lists.newArrayList(
             "/api/short-link/admin/v1/user/login",
             "/api/short-link/admin/v1/user/has-username"
+//            "/*"
     );
 
     @SneakyThrows
@@ -41,7 +42,9 @@ public class UserTransmitFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String requestURI = httpServletRequest.getRequestURI();
-        if (!IGNORE_URI.contains(requestURI)) {
+        String regex = "^/[a-zA-Z0-9\\s\\S]*$";
+
+        if (!IGNORE_URI.contains(requestURI) /*&& !Pattern.compile(regex).matcher(requestURI).matches()*/) {
             String method = httpServletRequest.getMethod();
             if (!(Objects.equals(requestURI, "/api/short-link/admin/v1/user") && Objects.equals(method, "POST"))) {
                 String username = httpServletRequest.getHeader("username");

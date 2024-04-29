@@ -3,6 +3,7 @@ package com.lyl.shortlink.project.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lyl.shortlink.project.dao.entity.ShortLinkDO;
+import com.lyl.shortlink.project.dto.biz.ShortLinkStatsRecordDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkBatchCreateReqDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.lyl.shortlink.project.dto.req.ShortLinkPageReqDTO;
@@ -31,5 +32,8 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
     IPage<ShortLinkPageRespDTO> pageShortLink(ShortLinkPageReqDTO requestParam);
 
     List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> requestParam);
+
+    void shortLinkStats(ShortLinkStatsRecordDTO statsRecord);
+//    void shortLinkStats(String fullShortUrl, String gid, ShortLinkStatsRecordDTO shortLinkStatsRecord);
 }
 

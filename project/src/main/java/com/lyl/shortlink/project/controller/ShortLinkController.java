@@ -1,5 +1,6 @@
 package com.lyl.shortlink.project.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lyl.shortlink.project.common.conventions.result.Result;
 import com.lyl.shortlink.project.common.conventions.result.Results;
@@ -11,6 +12,7 @@ import com.lyl.shortlink.project.dto.resp.ShortLinkBatchCreateRespDTO;
 import com.lyl.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import com.lyl.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import com.lyl.shortlink.project.dto.resp.ShortLinkPageRespDTO;
+import com.lyl.shortlink.project.handler.CustomBlockHandler;
 import com.lyl.shortlink.project.service.ShortLinkService;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -18,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.lyl.shortlink.project.common.constants.SentinelConstant.SHORT_LINK_CREATE_RULE;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,11 +41,11 @@ public class ShortLinkController {
      * 创建短链接
      */
     @PostMapping("/api/short-link/v1/create")
-//    @SentinelResource(
-//            value = "create_short-link",
-//            blockHandler = "createShortLinkBlockHandlerMethod",
-//            blockHandlerClass = CustomBlockHandler.class
-//    )
+    @SentinelResource(
+            value = SHORT_LINK_CREATE_RULE,
+            blockHandler = "createShortLinkBlockHandlerMethod",
+            blockHandlerClass = CustomBlockHandler.class
+    )
     public Result<ShortLinkCreateRespDTO> createShortLink(@RequestBody ShortLinkCreateReqDTO requestParam) {
         return Results.success(shortLinkService.createShortLink(requestParam));
     }

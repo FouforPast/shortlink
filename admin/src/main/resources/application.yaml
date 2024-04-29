@@ -14,12 +14,20 @@ logging:
 short-link:
   group:
     max-num: 10
+  flow-limit:
+    enable: false
+    time-window: 1
+    max-access-count: 10
+management:
+  endpoint:
+    beans:
+      enabled: true
 
 spring:
   application:
     name: short-link-admin
   profiles:
-    active: home
+    active: lab
 
   data:
     redis:
