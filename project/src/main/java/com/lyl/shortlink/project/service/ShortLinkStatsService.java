@@ -44,6 +44,6 @@ public interface ShortLinkStatsService {
     IPage<ShortLinkStatsAccessRecordRespDTO> groupShortLinkStatsAccessRecord(ShortLinkGroupStatsAccessRecordReqDTO requestParam);
 
 
-    public void actualSaveShortLinkStats(ShortLinkStatsRecordDTO statsRecord);
+    void actualSaveShortLinkStats(ShortLinkStatsRecordDTO statsRecord);
 
 }

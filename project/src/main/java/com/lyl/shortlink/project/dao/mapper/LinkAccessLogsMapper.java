@@ -72,7 +72,8 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +
             "    AND tl.enable_status = '0' " +
-            "    AND tlal.create_time BETWEEN CONCAT(#{param.startDate},' 00:00:00')  and CONCAT(#{param.endDate},' 23:59:59') " +
+//            "    AND tlal.create_time BETWEEN CONCAT(#{param.startDate},' 00:00:00')  and CONCAT(#{param.endDate},' 23:59:59') " +
+            "    AND tlal.create_time BETWEEN #{param.startDate}  and #{param.endDate} " +
             "GROUP BY " +
             "    tl.gid, tlal.ip " +
             "ORDER BY " +

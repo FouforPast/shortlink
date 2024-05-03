@@ -1,0 +1,85 @@
+server:
+  port: 8003
+
+logging:
+  level:
+    com:
+      lyl:
+        shortlink:
+          admin:
+            controller: debug
+            service: debug
+            dao: debug
+          project:
+            controller: debug
+            service: debug
+            dao: debug
+
+aggregation:
+  remote-url: http://127.0.0.1:${server.port}
+
+spring:
+  application:
+    name: short-link-aggregation
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/link?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-test-query: select 1
+      connection-timeout: 20000
+      idle-timeout: 300000
+      maximum-pool-size: 5
+      minimum-idle: 5
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+short-link:
+  group:
+    max-num: 20
+  flow-limit:
+    enable: true
+    time-window: 1
+    max-access-count: 20
+  domain:
+    default: nurl.ink:8003
+  stats:
+    locale:
+      amap-key: 2248e268e18ce1393c6ebad7a69a0264
+  goto-domain:
+    white-list:
+      enable: true
+      names: '拿个offer,知乎,掘金,博客园'
+      details:
+        - nageoffer.com
+        - zhihu.com
+        - juejin.cn
+        - cnblogs.com
+
+management:
+  endpoint:
+    beans:
+      enabled: true
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto
+  mapper-locations: classpath:mapper/*.xml

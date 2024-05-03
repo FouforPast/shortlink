@@ -33,12 +33,12 @@ public interface LinkAccessStatsMapper extends BaseMapper<LinkAccessStatsDO> {
             "    t_link_access_stats tlas ON tl.full_short_url = tlas.full_short_url " +
             "WHERE " +
             "    tlas.full_short_url = #{param.fullShortUrl} " +
-            "    AND tl.gid = #{param.gid} " +
+//            "    AND tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +
             "    AND tl.enable_status = #{param.enableStatus} " +
             "    AND tlas.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
-            "    tlas.full_short_url, tl.gid, tlas.date;")
+            "    tlas.full_short_url, tlas.date;")
     List<LinkAccessStatsDO> listStatsByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
 
     @Select("SELECT " +

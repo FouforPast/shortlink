@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Primary
-@Component(value = "myMetaObjectHandlerByAdmin")
+@Component(value = "myMetaObjectHandlerByProject")
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override

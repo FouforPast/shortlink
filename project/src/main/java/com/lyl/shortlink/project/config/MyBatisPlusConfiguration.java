@@ -3,6 +3,7 @@ package com.lyl.shortlink.project.config;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,7 @@ public class MyBatisPlusConfiguration {
      * 分页插件
      */
     @Bean
+    @ConditionalOnMissingBean(MybatisPlusInterceptor.class)
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         // MybatisPlusInterceptor是MyBatis Plus框架提供的一个拦截器，用于添加各种内部拦截器来扩展MyBatis的功能
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lyl.shortlink.admin.common.biz.user.UserContext;
 import com.lyl.shortlink.admin.common.conventions.exception.ClientException;
 import com.lyl.shortlink.admin.common.conventions.exception.ServiceException;
 import com.lyl.shortlink.admin.common.enums.UserErrorCodeEnum;
@@ -39,7 +40,7 @@ import static com.lyl.shortlink.admin.common.enums.UserErrorCodeEnum.*;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
+public class UserServiceAdminImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
     private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
     private final RedissonClient redissonClient;
@@ -93,7 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public void update(UserUpdateReqDTO reqDTO) {
-        if (!Objects.equals(reqDTO.getUsername(), reqDTO.getUsername())) {
+        if (!Objects.equals(reqDTO.getUsername(), UserContext.getUsername())) {
             throw new ClientException("当前登录用户修改请求异常");
         }
         LambdaUpdateWrapper<UserDO> updateWrapper = Wrappers.lambdaUpdate(UserDO.class)

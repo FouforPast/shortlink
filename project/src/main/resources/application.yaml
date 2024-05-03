@@ -27,11 +27,11 @@ short-link:
     max-num: 10
   domain:
     default: nurl.ink:8001
-  amap:
-    key: 2248e268e18ce1393c6ebad7a69a0264
+#  amap:
+#    key: 2248e268e18ce1393c6ebad7a69a0264
   stats:
     locale:
-      amap-key: 824c511f0997586ea016f979fdb23087
+      amap-key: 2248e268e18ce1393c6ebad7a69a0264
   goto-domain:
     white-list:
       enable: true

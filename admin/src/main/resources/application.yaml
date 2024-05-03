@@ -13,11 +13,12 @@ logging:
 
 short-link:
   group:
-    max-num: 10
+    max-num: 20
   flow-limit:
-    enable: false
+    enable: true
     time-window: 1
-    max-access-count: 10
+    max-access-count: 20
+
 management:
   endpoint:
     beans:
@@ -31,5 +32,6 @@ spring:
 
   data:
     redis:
-      host: 127.0.0.1
+#      host: 47.94.138.232
+      host: localhost
       port: 6379
