@@ -61,9 +61,16 @@ public class ShortLinkStatsServiceImpl implements ShortLinkStatsService {
 
     @Override
     public ShortLinkStatsRespDTO oneShortLinkStats(ShortLinkStatsReqDTO requestParam) {
+        if (null == requestParam.getEnableStatus()){
+            requestParam.setEnableStatus(0);
+        }
         List<LinkAccessStatsDO> listStatsByShortLink = linkAccessStatsMapper.listStatsByShortLink(requestParam);
         if (CollUtil.isEmpty(listStatsByShortLink)) {
             return null;
+        }
+        if(requestParam.getStartDate().length() > "yyyy-MM-dd HH:mm:ss ".length()){
+            requestParam.setStartDate(requestParam.getStartDate().substring(0, "yyyy-MM-dd HH:mm:ss".length()));
+            requestParam.setEndDate(requestParam.getEndDate().substring(0, "yyyy-MM-dd HH:mm:ss".length()));
         }
         // 基础访问数据
         LinkAccessStatsDO pvUvUidStatsByShortLink = linkAccessLogsMapper.findPvUvUidStatsByShortLink(requestParam);
