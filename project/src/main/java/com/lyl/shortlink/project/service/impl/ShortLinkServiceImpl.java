@@ -521,7 +521,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         }
 
 //        String requestUtl = ((HttpServletRequest) request).getRequestURL().toString();
-        Long size = stringRedisTemplate.opsForHyperLogLog().size(String.format(UV_SHORT_LINK_KEY, fullShortUrl));
+        long size = stringRedisTemplate.opsForHyperLogLog().size(String.format(UV_SHORT_LINK_KEY, fullShortUrl));
         stringRedisTemplate.opsForHyperLogLog().add(String.format(UV_SHORT_LINK_KEY, fullShortUrl), cookie.getValue());
         size = stringRedisTemplate.opsForHyperLogLog().size(String.format(UV_SHORT_LINK_KEY, fullShortUrl)) - size;
         uvFlag.set(size > 0);
@@ -564,6 +564,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     public void shortLinkStats(ShortLinkStatsRecordDTO statsRecord) {
         Map<String, String> producerMap = new HashMap<>();
         producerMap.put("statsRecord", JSON.toJSONString(statsRecord));
+        producerMap.put("fullShortUrl", statsRecord.getFullShortUrl());
     //         消息队列为什么选用RocketMQ？详情查看：https://nageoffer.com/shortlink/question
         shortLinkStatsSaveProducer.send(producerMap);
     }

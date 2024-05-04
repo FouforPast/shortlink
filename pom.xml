@@ -23,6 +23,7 @@
         <mybatis-spring-boot-starter.version>3.0.2</mybatis-spring-boot-starter.version>
         <shardingsphere.version>5.3.2</shardingsphere.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <rocketmq-spring-boot-starter.version>2.2.3</rocketmq-spring-boot-starter.version>
         <fastjson2.version>2.0.36</fastjson2.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <dozer-core.version>6.5.2</dozer-core.version>
@@ -122,6 +123,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq-spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
