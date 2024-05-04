@@ -61,7 +61,6 @@ public class ShortLinkStatsSaveConsumer implements StreamListener<String, MapRec
             // 判断当前的这个消息流程是否执行完成
             if (messageQueueIdempotentHandler.isAccomplish(id.toString())) {
                 return;
-
             }
             throw new ServiceException("消息未完成流程，需要消息队列重试");
         }
