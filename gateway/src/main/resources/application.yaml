@@ -11,8 +11,8 @@ spring:
   application:
     name: short-link-gateway
   profiles:
-    active: dev
-#    active: aggregation
+#    active: dev
+    active: aggregation
   data:
     redis:
 #      host: 47.94.138.232
