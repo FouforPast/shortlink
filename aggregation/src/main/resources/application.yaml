@@ -5,15 +5,7 @@ logging:
   level:
     com:
       lyl:
-        shortlink:
-          admin:
-            controller: debug
-            service: debug
-            dao: debug
-          project:
-            controller: debug
-            service: debug
-            dao: debug
+        shortlink: debug
 
 aggregation:
   remote-url: http://127.0.0.1:${server.port}
@@ -54,13 +46,13 @@ short-link:
     time-window: 1
     max-access-count: 20
   domain:
-    default: nurl.ink:8003
+    default: 127.0.0.1:8000/skip
   stats:
     locale:
       amap-key: 2248e268e18ce1393c6ebad7a69a0264
   goto-domain:
     white-list:
-      enable: true
+      enable: false
       names: '拿个offer,知乎,掘金,博客园'
       details:
         - nageoffer.com

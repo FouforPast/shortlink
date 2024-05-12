@@ -32,8 +32,13 @@ public class ShortLinkController {
     /**
      * 短链接跳转原始链接
      */
-    @GetMapping("/{short-uri}")
+    @GetMapping("/skip/{short-uri}")
     public void restoreUrl(@PathVariable("short-uri") String shortUri, ServletRequest request, ServletResponse response) {
+        shortLinkService.restoreUrl(shortUri, request, response);
+    }
+
+    @GetMapping("/api/short-link/{short-uri}")
+    public void restoreUrl1(@PathVariable("short-uri") String shortUri, ServletRequest request, ServletResponse response) {
         shortLinkService.restoreUrl(shortUri, request, response);
     }
 

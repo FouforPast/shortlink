@@ -6,10 +6,8 @@ logging:
     com:
       lyl:
         shortlink:
-          admin:
-            controller: debug
-            service: debug
-            dao: debug
+          admin: debug
+
 
 short-link:
   group:

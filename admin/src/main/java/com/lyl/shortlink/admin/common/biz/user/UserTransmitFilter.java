@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Enumeration;
-
 
 //@RequiredArgsConstructor
 //public class UserTransmitFilter implements Filter {
@@ -116,14 +114,14 @@ public class UserTransmitFilter implements Filter {
 //            return;
 //        }
         // 打印请求url和请求方法
-        log.debug("request url: {}, method: {}", httpServletRequest.getRequestURL(), httpServletRequest.getMethod());
+        log.info("request url: {}, method: {}", httpServletRequest.getRequestURL(), httpServletRequest.getMethod());
         String username = httpServletRequest.getHeader("username");
-        Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = httpServletRequest.getHeader(headerName);
-            System.out.println("Header Name: " + headerName + ", Value: " + headerValue);
-        }
+//        Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
+//        while (headerNames.hasMoreElements()) {
+//            String headerName = headerNames.nextElement();
+//            String headerValue = httpServletRequest.getHeader(headerName);
+//            System.out.println("Header Name: " + headerName + ", Value: " + headerValue);
+//        }
 //        String token = httpServletRequest.getHeader("token");
 //        Object object = stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + username, token);
 //        if(null != object){

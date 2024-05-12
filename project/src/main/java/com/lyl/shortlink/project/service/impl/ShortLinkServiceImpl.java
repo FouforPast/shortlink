@@ -90,8 +90,8 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .map(String::valueOf)
                 .map(each -> ":" + each)
                 .orElse("");
-        String fullShortUrl = serverName + serverPort + "/" + shortUri;
-
+        String fullShortUrl = createShortLinkDefaultDomain + "/" + shortUri;
+        log.info("跳轉短鏈接：{}", fullShortUrl);
         String originalLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
         if (StrUtil.isNotBlank(originalLink)) {
             shortLinkStats(buildLinkStatsRecordAndSetUser(fullShortUrl, request, response));
