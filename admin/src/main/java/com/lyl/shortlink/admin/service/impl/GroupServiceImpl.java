@@ -128,10 +128,9 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
                 .eq(GroupDO::getUsername, UserContext.getUsername())
                 .eq(GroupDO::getGid, gid)
-                .eq(GroupDO::getDelFlag, 0);
-        GroupDO groupDO = new GroupDO();
-        groupDO.setDelFlag(1);
-        baseMapper.update(groupDO, updateWrapper);
+                .eq(GroupDO::getDelFlag, 0)
+                .set(GroupDO::getDelFlag, 1);
+        baseMapper.update(null, updateWrapper);
     }
 
     @Override

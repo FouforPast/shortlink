@@ -16,6 +16,9 @@ spring:
           uri: lb://short-link-aggregation/skip/**
           predicates:
               - Path=/skip/**
+#          filters:
+#            - name: TrueIPAddFilter
+
         - id: short-link-project-aggregation
           uri: lb://short-link-aggregation/api/short-link/**
           predicates:

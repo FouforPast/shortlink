@@ -21,6 +21,7 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.util.Date;
@@ -33,6 +34,7 @@ import static com.lyl.shortlink.project.common.constants.ShortLinkConstant.DEFAU
  * 短链接工具类
  * 公众号：马丁玩编程，回复：加群，添加马哥微信（备注：link）获取项目资料
  */
+@Slf4j
 public class LinkUtil {
 
     /**
@@ -54,7 +56,8 @@ public class LinkUtil {
      * @return 用户真实IP
      */
     public static String getActualIp(HttpServletRequest request) {
-        String ipAddress = request.getHeader("X-Forwarded-For");
+        String ipAddress = request.getHeader("X-Real-IP");
+//        String ipAddress = request.getHeader("X-Forwarded-For");
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
         }
@@ -70,6 +73,7 @@ public class LinkUtil {
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
         }
+        log.info("LinkUtil#getActualIp:用户访问IP地址：{}", ipAddress);
         return ipAddress;
     }
 

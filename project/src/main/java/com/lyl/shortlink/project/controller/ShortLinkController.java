@@ -17,6 +17,7 @@ import com.lyl.shortlink.project.service.ShortLinkService;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ import static com.lyl.shortlink.project.common.constants.SentinelConstant.SHORT_
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ShortLinkController {
 
     private final ShortLinkService shortLinkService;
@@ -34,10 +36,11 @@ public class ShortLinkController {
      */
     @GetMapping("/skip/{short-uri}")
     public void restoreUrl(@PathVariable("short-uri") String shortUri, ServletRequest request, ServletResponse response) {
+        log.info("短链接跳转原始链接，shortUri: {}", shortUri);
         shortLinkService.restoreUrl(shortUri, request, response);
     }
 
-    @GetMapping("/api/short-link/{short-uri}")
+    @GetMapping("/{short-uri}")
     public void restoreUrl1(@PathVariable("short-uri") String shortUri, ServletRequest request, ServletResponse response) {
         shortLinkService.restoreUrl(shortUri, request, response);
     }
