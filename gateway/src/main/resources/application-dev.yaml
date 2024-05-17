@@ -12,7 +12,10 @@ spring:
                 whitePathList:
                   - /api/short-link/admin/v1/user/login
                   - /api/short-link/admin/v1/user/has-username
-
+        - id: short-link-restore
+          uri: lb://short-link-project/skip/**
+          predicates:
+            - Path=/skip/**
         - id: short-link-project
           uri: lb://short-link-project/api/short-link/**
           predicates:
