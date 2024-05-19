@@ -383,7 +383,8 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                             ShortLinkDO::getValidDate, null)
                     .eq(ShortLinkDO::getDelFlag, 0)
                     .set(ShortLinkDO::getOriginUrl, requestParam.getOriginUrl())
-                    .eq(ShortLinkDO::getEnableStatus, 0);
+                    .eq(ShortLinkDO::getEnableStatus, 0)
+                    .set(ShortLinkDO::getDescribe, requestParam.getDescribe());
             update(updateWrapper);
         } else {
             // 为什么监控表要加上Gid？不加的话是否就不存在读写锁？详情查看：https://nageoffer.com/shortlink/question
