@@ -39,6 +39,7 @@ public class TrueIPAddFilterGatewayFilterFactory extends AbstractGatewayFilterFa
             // 将真实IP地址放入请求头中
             exchange.getRequest().mutate()
                     .headers(httpHeaders -> httpHeaders.add("X-Real-IP", finalIpAddress));
+            exchange.getRequest().getHeaders().forEach((k, v) -> log.info("请求头信息：{}={}", k, v));
 
             log.info("用户访问IP地址：{}", finalIpAddress);
             return chain.filter(exchange);

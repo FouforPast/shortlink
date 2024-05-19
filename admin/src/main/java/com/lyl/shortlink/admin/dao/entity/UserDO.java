@@ -47,4 +47,6 @@ public class UserDO extends BaseDO {
      * 注销时间戳
      */
     private Long deletionTime;
+
+    private Integer loginFlag;
 }

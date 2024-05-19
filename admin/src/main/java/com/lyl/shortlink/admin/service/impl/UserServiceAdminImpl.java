@@ -114,12 +114,13 @@ public class UserServiceAdminImpl extends ServiceImpl<UserMapper, UserDO> implem
         }
         Map<Object, Object> hasLoginMap = stringRedisTemplate.opsForHash().entries(USER_LOGIN_KEY + requestParam.getUsername());
         if (CollUtil.isNotEmpty(hasLoginMap)) {
-            stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUsername(), 30L, TimeUnit.MINUTES);
-            String token = hasLoginMap.keySet().stream()
-                    .findFirst()
-                    .map(Object::toString)
-                    .orElseThrow(() -> new ClientException("用户登录错误"));
-            return new UserLoginRespDTO(token);
+            stringRedisTemplate.delete(USER_LOGIN_KEY + requestParam.getUsername());
+//            stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUsername(), 30L, TimeUnit.MINUTES);
+//            String token = hasLoginMap.keySet().stream()
+//                    .findFirst()
+//                    .map(Object::toString)
+//                    .orElseThrow(() -> new ClientException("用户登录错误"));
+//            return new UserLoginRespDTO(token);
         }
         /**
          * Hash
@@ -129,9 +130,9 @@ public class UserServiceAdminImpl extends ServiceImpl<UserMapper, UserDO> implem
          *  Val：JSON 字符串（用户信息）
          */
         String uuid = UUID.randomUUID().toString();
-        if (requestParam.getUsername().equals("admin")){
-            uuid = "4b312f0b-aa6a-474a-8c20-70b2544c8f97";
-        }
+//        if (requestParam.getUsername().equals("admin")){
+//            uuid = "4b312f0b-aa6a-474a-8c20-70b2544c8f97";
+//        }
         stringRedisTemplate.opsForHash().put(USER_LOGIN_KEY + requestParam.getUsername(), uuid, JSON.toJSONString(userDO));
         stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUsername(), 30L, TimeUnit.MINUTES);
         return new UserLoginRespDTO(uuid);
