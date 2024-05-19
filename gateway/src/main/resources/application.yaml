@@ -12,12 +12,15 @@ spring:
     name: short-link-gateway
   profiles:
 #    active: dev
+#    active: aggregation-local
     active: aggregation
   data:
     redis:
 #      host: 47.94.138.232
       host: 47.94.138.232
       port: 6379
+      password: oRLjnxADacitnfdyEYXtr7
+
   cloud:
     nacos:
       discovery:

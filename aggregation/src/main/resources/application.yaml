@@ -15,7 +15,7 @@ spring:
     name: short-link-aggregation
   datasource:
     username: root
-    password: root
+    password: JzhD25O1tAjHhQfRZi5g6vM
     url: jdbc:mysql://47.94.138.232:3306/link?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
@@ -28,6 +28,7 @@ spring:
     redis:
       host: 47.94.138.232
       port: 6379
+      password: oRLjnxADacitnfdyEYXtr7
 
   mvc:
     view:
@@ -47,7 +48,7 @@ short-link:
     max-access-count: 20
   domain:
     default: 47.94.138.232/skip
-#    default: 127.0.0.1:8000/skip
+#    default: 4b19b3ef.r8.cpolar.top/skip
   stats:
     locale:
       amap-key: 2248e268e18ce1393c6ebad7a69a0264
